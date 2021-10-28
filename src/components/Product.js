@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Product = ({ product }) => {
+export const Product = ({ product, handleAddToCart }) => {
   let { image, title, price, description } = product;
   return (
     <div className="Products-item">
@@ -12,7 +12,9 @@ export const Product = ({ product }) => {
         </h2>
         <p>{description}</p>
       </div>
-      <button type="button">Comprar</button>
+      <button type="button" onClick={handleAddToCart(product)}>
+        Comprar
+      </button>
     </div>
   );
 };
