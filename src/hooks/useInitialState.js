@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import initialState from "../data/initialState";
+import axios from "axios";
+
+const API = "http://localhost:3006/products";
 
 export const useInitialState = () => {
   const [state, setState] = useState(initialState);
+
+  //UseState que se encarga de tener los productos.
+  const [products, setProducts] = useState([]);
+
+  //useEffect para llamar el API y guardar el resultado en los productos.
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios(API);
+      setProducts(response.data);
+    };
+    getData();
+  }, []);
 
   const addToCart = (payload, indexToRemove) => {
     setState({
@@ -34,11 +49,20 @@ export const useInitialState = () => {
     });
   };
 
+  const removeAllFromCart = () => {
+    setState({
+      ...state,
+      cart: [],
+    });
+  };
+
   return {
     addToCart,
     removeFromCart,
     addToBuyer,
     addNewOrder,
+    removeAllFromCart,
     state,
+    products,
   };
 };

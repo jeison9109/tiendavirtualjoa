@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import AppContext from "../context/AppContex";
-import { PayPalButton } from "react-paypal-button";
+import { PayPalButton } from "react-paypal-button-v2";
 import "../styles/Payment.css";
 
 export const Payment = ({ history }) => {
   const { state, addNewOrder } = useContext(AppContext);
   const { cart, buyer } = state;
 
-  const paypalOtions = {
+  const paypalOptions = {
     clientId:
       "ARU3O4EGDglvZWZDdtHTUxfT22qGSyHZ0afmkazYWT3AKT6ycudbxJTs4dGMk4mMlqSqdu1hO_yoFT_N",
     intent: "capture",
@@ -21,14 +21,13 @@ export const Payment = ({ history }) => {
 
   const handlePaymentSuccess = (data) => {
     console.log(data);
-    if (data.estatus === "COMPLETED") {
+    if (data.status === "COMPLETED") {
       const newOrder = {
         buyer,
-        product: cart,
+        products: cart,
         payment: data,
       };
-      addNewOrder(newOrder);
-      history.push("/checkout/success");
+      addNewOrder(newOrder, history.push("/checkout/success"));
     }
   };
 
@@ -56,7 +55,7 @@ export const Payment = ({ history }) => {
         ))}
         <div className="Payment-button">
           <PayPalButton
-            /* createOrder={(data, actions) => {
+            /*createOrder={(data, actions) => {
               return actions.order.create({
                 purchase_units: [
                   {
@@ -68,13 +67,13 @@ export const Payment = ({ history }) => {
                 ],
               });
             }}*/
-            paypalOptions={paypalOtions}
+            paypalOptions={paypalOptions}
             buttonStyles={buttonStyles}
             amount={handleSumTotal()}
-            onPaymentStart={() => console.log("Start Payment")}
-            onPaymentSuccess={(data) => handlePaymentSuccess(data)}
-            onPaymentError={(error) => console.log(error)}
-            onPaymentCancel={(data) => console.log(data)}
+            //onPaymentStart={() => console.log("Start Payment")}
+            onSuccess={(data) => handlePaymentSuccess(data)}
+            onError={(error) => console.log(error)}
+            onCancel={(data) => console.log(data)}
           />
         </div>
       </div>

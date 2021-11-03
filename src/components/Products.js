@@ -4,8 +4,11 @@ import AppContext from "../context/AppContex";
 import "../styles/Products.css";
 
 export const Products = () => {
-  const { state, addToCart } = useContext(AppContext);
-  const { products } = state;
+  const { products, addToCart } = useContext(AppContext);
+
+  /*se usa para initiaalstate*/
+  //const { state, addToCart } = useContext(AppContext);
+  // const { products } = state;
 
   const handleAddToCart = (product) => () => {
     addToCart(product);

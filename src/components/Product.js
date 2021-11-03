@@ -4,7 +4,7 @@ export const Product = ({ product, handleAddToCart }) => {
   let { image, title, price, description } = product;
   return (
     <div className="Products-item">
-      <img src={image} alt={image} />
+      <img src={`http://localhost:3006${product.image[0].url}`} alt={image} />
       <div className="Product-item-info">
         <h2>
           {title}
